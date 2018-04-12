@@ -1,2 +1,6 @@
 
-csquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(²Ú±Ž
+Lsquid:S1068"+Remove this unused "mDrawer" private field.(”›ØËþÿÿÿÿ8ÒñÏ’«,
+jsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(²Ú±Ž8ÒñÏ’«,
+ysquid:UselessImportCheck"KRemove this unused import 'learnopengl.xiaobole.com.drawer.TriangleDrawer'.(­ýÎÿÿÿÿÿ8ÒñÏ’«,
+wsquid:UselessImportCheck"IRemove this unused import 'learnopengl.xiaobole.com.render.OpenGLRender'.(ñÚ¶Ýøÿÿÿÿ8ÒñÏ’«,
+Msquid:S1068"2Remove this unused "mGLSurfaceView" private field.(ÞŽÏt8ÒñÏ’«,

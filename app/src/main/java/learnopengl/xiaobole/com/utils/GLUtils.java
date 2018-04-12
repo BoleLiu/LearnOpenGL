@@ -1,12 +1,15 @@
 package learnopengl.xiaobole.com.utils;
 
 import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
+import static android.opengl.GLES20.GL_ARRAY_BUFFER;
 import static android.opengl.GLES20.GL_COMPILE_STATUS;
 import static android.opengl.GLES20.GL_LINK_STATUS;
 import static android.opengl.GLES20.GL_VALIDATE_STATUS;
@@ -15,6 +18,7 @@ import static android.opengl.GLES20.glCompileShader;
 import static android.opengl.GLES20.glCreateProgram;
 import static android.opengl.GLES20.glCreateShader;
 import static android.opengl.GLES20.glDeleteShader;
+import static android.opengl.GLES20.glGenBuffers;
 import static android.opengl.GLES20.glGetProgramInfoLog;
 import static android.opengl.GLES20.glGetProgramiv;
 import static android.opengl.GLES20.glGetShaderInfoLog;
@@ -27,6 +31,7 @@ public class GLUtils {
     public static final String TAG = "GLUtils";
 
     private static final int BYTES_PER_FLOAT = 4;
+    private static final int BYTES_PER_SHORT = 2;
 
     public static int compileVertexShader(String shaderCode) {
         return compileShader(GLES20.GL_VERTEX_SHADER, shaderCode);
@@ -100,12 +105,37 @@ public class GLUtils {
         return validateStatus[0] != 0;
     }
 
-    public static FloatBuffer createBuffer(float[] vertices) {
+    public static FloatBuffer createFloatBuffer(float[] vertices) {
         FloatBuffer vertexData = ByteBuffer.allocateDirect(vertices.length * BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer();
 
         vertexData.put(vertices).position(0);
         return vertexData;
+    }
+
+    public static ShortBuffer createShortBuffer(short[] vertices) {
+        ShortBuffer indexData = ByteBuffer.allocateDirect(vertices.length * BYTES_PER_SHORT)
+                .order(ByteOrder.nativeOrder())
+                .asShortBuffer();
+
+        indexData.put(vertices).position(0);
+        return indexData;
+    }
+
+    public static int createVBO() {
+        return createVBO(1)[0];
+    }
+
+    public static int[] createVBO(int num) {
+        int[] vbo = new int[num];
+        GLES20.glGenBuffers(num, vbo, 0);
+        return vbo;
+    }
+
+    public static int createVAO() {
+        int[] vaoIds = new int[1];
+        GLES30.glGenVertexArrays(1, vaoIds, 0);
+        return vaoIds[0];
     }
 }

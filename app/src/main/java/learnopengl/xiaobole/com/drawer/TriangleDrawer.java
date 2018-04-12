@@ -24,8 +24,8 @@ public class TriangleDrawer implements IDrawer {
     private static final int POSITION_COMPONENT_COUNT = 3;
 
     private int mProgramId;
-    private int mAPositionLocation;
-    private int mUColorLocation;
+    private int mPositionLocation;
+    private int mColorLocation;
 
     private FloatBuffer mVertexData;
 
@@ -43,9 +43,9 @@ public class TriangleDrawer implements IDrawer {
                     "}";
 
     private static final float[] VERTICES = {
-            0.0f, 1.0f, 0.0f,
-            -1.0f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f,
+            0.0f, 0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
     };
 
     @Override
@@ -78,12 +78,12 @@ public class TriangleDrawer implements IDrawer {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
         setupBuffer();
-        glVertexAttribPointer(mAPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, 0, mVertexData);
-        glEnableVertexAttribArray(mAPositionLocation);
+        glVertexAttribPointer(mPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, 0, mVertexData);
+        glEnableVertexAttribArray(mPositionLocation);
 
-        glUniform4f(mUColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
+        glUniform4f(mColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDisableVertexAttribArray(mAPositionLocation);
+        glDisableVertexAttribArray(mPositionLocation);
     }
 
     private boolean setupShaders() {
@@ -94,13 +94,13 @@ public class TriangleDrawer implements IDrawer {
     }
 
     private void setupLocations() {
-        mAPositionLocation = glGetAttribLocation(mProgramId, "a_position");
-        mUColorLocation = glGetUniformLocation(mProgramId, "u_color");
+        mPositionLocation = glGetAttribLocation(mProgramId, "a_position");
+        mColorLocation = glGetUniformLocation(mProgramId, "u_color");
     }
 
     private void setupBuffer() {
         if (mVertexData == null) {
-            mVertexData = GLUtils.createBuffer(VERTICES);
+            mVertexData = GLUtils.createFloatBuffer(VERTICES);
         }
     }
 }

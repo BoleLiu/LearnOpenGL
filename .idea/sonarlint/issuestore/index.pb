@@ -9,3 +9,11 @@ u
 Eapp/src/main/java/learnopengl/xiaobole/com/drawer/TriangleDrawer.java,9/3/930f3d4784911a223a73328f9b0cb686843f26d2
 m
 =app/src/main/java/learnopengl/xiaobole/com/utils/GLUtils.java,3/b/3ba95cce3e33a2a06f15d25a7037265b03cd3908
+v
+Fapp/src/main/java/learnopengl/xiaobole/com/drawer/RectangleDrawer.java,f/4/f436a14e9456acfbd2ed2d8f0a342acc63326a78
+P
+ app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+y
+Iapp/src/main/java/learnopengl/xiaobole/com/activity/GLRenderActivity.java,b/7/b746e0610f93ba131d7f293ca6a7b5a1dd776f74
+x
+Happ/src/main/java/learnopengl/xiaobole/com/drawer/VBOTriangleDrawer.java,8/a/8a7cedd5572bae7a35c905ff55dab636a2f727cc
