@@ -13,9 +13,6 @@ import learnopengl.xiaobole.com.render.OpenGLRender;
 
 public class MainActivity extends AppCompatActivity {
 
-    private GLSurfaceView mGLSurfaceView;
-    private IDrawer mDrawer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickVAOTriangle(View v) {
         jumpToRenderActivity(GLRenderActivity.RENDER_TYPE_VAO_TRIANGLE);
+    }
+
+    public void onClickTexture(View v) {
+        jumpToRenderActivity(GLRenderActivity.RENDER_TYPE_TEXTURE);
     }
 
     private void jumpToRenderActivity(int renderType) {

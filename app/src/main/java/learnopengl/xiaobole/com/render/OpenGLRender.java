@@ -6,6 +6,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import learnopengl.xiaobole.com.drawer.IDrawer;
+import learnopengl.xiaobole.com.drawer.TextureDrawer;
 
 import static android.opengl.GLES20.glClearColor;
 

@@ -32,4 +32,10 @@
         android:text="VAOTriangle"
         android:onClick="onClickVAOTriangle" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="texture"
+        android:onClick="onClickTexture" />
+
 </LinearLayout>

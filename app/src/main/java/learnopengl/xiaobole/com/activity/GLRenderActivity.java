@@ -1,12 +1,17 @@
 package learnopengl.xiaobole.com.activity;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import learnopengl.xiaobole.com.R;
 import learnopengl.xiaobole.com.drawer.IDrawer;
 import learnopengl.xiaobole.com.drawer.RectangleDrawer;
+import learnopengl.xiaobole.com.drawer.TextureDrawer;
 import learnopengl.xiaobole.com.drawer.TriangleDrawer;
 import learnopengl.xiaobole.com.drawer.VAOTriangleDrawer;
 import learnopengl.xiaobole.com.drawer.VBOTriangleDrawer;
@@ -18,6 +23,7 @@ public class GLRenderActivity extends AppCompatActivity {
     public static final int RENDER_TYPE_RECTANGLE = 1;
     public static final int RENDER_TYPE_VBO_TRIANGLE = 2;
     public static final int RENDER_TYPE_VAO_TRIANGLE = 3;
+    public static final int RENDER_TYPE_TEXTURE = 4;
 
     private GLSurfaceView mGLSurfaceView;
     private IDrawer mDrawer;
@@ -48,6 +54,8 @@ public class GLRenderActivity extends AppCompatActivity {
                 return new VBOTriangleDrawer();
             case RENDER_TYPE_VAO_TRIANGLE:
                 return new VAOTriangleDrawer();
+            case RENDER_TYPE_TEXTURE:
+                return new TextureDrawer().setBitmap(loadBitmap(this, R.drawable.test));
         }
         return null;
     }
@@ -68,5 +76,24 @@ public class GLRenderActivity extends AppCompatActivity {
     protected void onDestroy() {
         mDrawer.release();
         super.onDestroy();
+    }
+
+    private static Bitmap loadBitmap(Context context, int resId) {
+        /**
+         * No pre-scaling
+         * Android applies pre-scaling to bitmaps depending on the resolution of your device
+         * and which resource folder you placed the image in. We don’t want Android to scale
+         * our bitmap at all, so to be sure, we set inScaled to false.
+         */
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+        /**
+         * decode the image resource
+         */
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resId, options);
+        if (bitmap == null) {
+            return null;
+        }
+        return bitmap;
     }
 }

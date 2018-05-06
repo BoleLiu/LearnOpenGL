@@ -17,3 +17,9 @@ y
 Iapp/src/main/java/learnopengl/xiaobole/com/activity/GLRenderActivity.java,b/7/b746e0610f93ba131d7f293ca6a7b5a1dd776f74
 x
 Happ/src/main/java/learnopengl/xiaobole/com/drawer/VBOTriangleDrawer.java,8/a/8a7cedd5572bae7a35c905ff55dab636a2f727cc
+x
+Happ/src/main/java/learnopengl/xiaobole/com/drawer/VAOTriangleDrawer.java,3/3/3300b23802fccf584e5112a39de8cbb16a13931e
+t
+Dapp/src/main/java/learnopengl/xiaobole/com/drawer/TextureDrawer.java,7/5/75cd04d330c36196175aa801f6032d2b20c3bca0
+q
+Aapp/src/main/java/learnopengl/xiaobole/com/utils/ImageMatrix.java,c/0/c00b09971bf8fbf91c05be362137b72d031fb02f
