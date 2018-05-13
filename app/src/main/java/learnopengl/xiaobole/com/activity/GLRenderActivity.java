@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import java.io.InputStream;
+
 import learnopengl.xiaobole.com.R;
 import learnopengl.xiaobole.com.drawer.IDrawer;
 import learnopengl.xiaobole.com.drawer.RectangleDrawer;
@@ -15,6 +17,7 @@ import learnopengl.xiaobole.com.drawer.TextureDrawer;
 import learnopengl.xiaobole.com.drawer.TriangleDrawer;
 import learnopengl.xiaobole.com.drawer.VAOTriangleDrawer;
 import learnopengl.xiaobole.com.drawer.VBOTriangleDrawer;
+import learnopengl.xiaobole.com.drawer.YUVImageDrawer;
 import learnopengl.xiaobole.com.render.OpenGLRender;
 
 public class GLRenderActivity extends AppCompatActivity {
@@ -24,6 +27,7 @@ public class GLRenderActivity extends AppCompatActivity {
     public static final int RENDER_TYPE_VBO_TRIANGLE = 2;
     public static final int RENDER_TYPE_VAO_TRIANGLE = 3;
     public static final int RENDER_TYPE_TEXTURE = 4;
+    public static final int RENDER_TYPE_YUV = 5;
 
     private GLSurfaceView mGLSurfaceView;
     private IDrawer mDrawer;
@@ -56,6 +60,9 @@ public class GLRenderActivity extends AppCompatActivity {
                 return new VAOTriangleDrawer();
             case RENDER_TYPE_TEXTURE:
                 return new TextureDrawer().setBitmap(loadBitmap(this, R.drawable.test));
+            case RENDER_TYPE_YUV:
+                byte[] i420 = readYUVFrame(this, R.raw.test);
+                return new YUVImageDrawer().setI420Frame(i420, 1280, 720);
         }
         return null;
     }
@@ -95,5 +102,18 @@ public class GLRenderActivity extends AppCompatActivity {
             return null;
         }
         return bitmap;
+    }
+
+    private static byte[] readYUVFrame(Context context, int resId){
+        try {
+            InputStream in = context.getResources().openRawResource(resId);
+            int size = in.available();
+            byte[] buffer = new byte[size];
+            in.read(buffer);
+            return buffer;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

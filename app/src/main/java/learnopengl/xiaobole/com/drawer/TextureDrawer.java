@@ -100,7 +100,6 @@ public class TextureDrawer implements IDrawer {
 
     @Override
     public void setViewPort(int x, int y, int width, int height) {
-        Log.i("liujingbo", "x = " + x + " y = " + y + " width = " + width + " height = " + height);
         GLES20.glViewport(x, y, width, height);
         mImageMatrix.setViewport(mBitmap.getWidth(), mBitmap.getHeight(), width, height);
     }

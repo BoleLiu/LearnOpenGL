@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         jumpToRenderActivity(GLRenderActivity.RENDER_TYPE_TEXTURE);
     }
 
+    public void onClickYUV(View v) {
+        jumpToRenderActivity(GLRenderActivity.RENDER_TYPE_YUV);
+    }
+
     private void jumpToRenderActivity(int renderType) {
         Intent intent = new Intent(MainActivity.this, GLRenderActivity.class);
         intent.putExtra("RenderType", renderType);
