@@ -8,6 +8,8 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import learnopengl.xiaobole.com.utils.GLUtils;
 
 public class YUVImageDrawer implements IDrawer {
@@ -195,7 +197,7 @@ public class YUVImageDrawer implements IDrawer {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures[i]);
 
             /**
-             * 设置如何把纹理象素映射成像素
+             * 设置如何把纹理像素映射成像素
              * @param GL_TEXTURE_2D 操作 2D 的纹理
              * @param GL_TEXTURE_MIN_FILTER 设置缩小的过滤方式
              * @param GL_TEXTURE_MAG_FILTER 设置放大的过滤方式
@@ -226,6 +228,7 @@ public class YUVImageDrawer implements IDrawer {
         setupBuffers();
         GLES30.glBindVertexArray(mVAOId);
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_SHORT, 0);
+        GLES20.glDisable(GLES20.GL_TEXTURE_2D);
     }
 
     private boolean setupShaders() {
