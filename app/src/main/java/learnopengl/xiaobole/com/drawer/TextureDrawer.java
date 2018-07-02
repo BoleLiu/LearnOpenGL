@@ -1,9 +1,7 @@
 package learnopengl.xiaobole.com.drawer;
 
-import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
-import android.util.Log;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -11,19 +9,17 @@ import java.nio.ShortBuffer;
 import learnopengl.xiaobole.com.utils.GLUtils;
 import learnopengl.xiaobole.com.utils.ImageMatrix;
 
-public class TextureDrawer implements IDrawer {
+public abstract class TextureDrawer implements IDrawer {
 
     private static final int POSITION_COMPONENT_COUNT = 3;
     private static final int TEXCOORD_COMPONENT_COUNT = 2;
 
-    private int mProgramId;
-    private int mPositionLocation;
-    private int mTexCoordLocation;
-    private int mMVPMatrixLocation;
-    private int mTexMatrixLocation;
-    private int mSamplerLocation;
-
-    private int mTexId;
+    int mProgramId;
+    int mPositionLocation;
+    int mTexCoordLocation;
+    int mMVPMatrixLocation;
+    int mTexMatrixLocation;
+    int mSamplerLocation;
 
     private int mVAOId;
     private int mVBOId;
@@ -32,51 +28,21 @@ public class TextureDrawer implements IDrawer {
     private FloatBuffer mVertexData;
     private ShortBuffer mIndexBuffer;
 
-    private Bitmap mBitmap;
-
     private ImageMatrix mImageMatrix = new ImageMatrix();
-
-    private static final String VERTEX_SHADER =
-            "attribute vec4 aPosition;\n" +
-                    "attribute vec4 aTexCoord;\n" +
-                    "varying vec2 vTexCoord;\n" +
-                    "uniform mat4 uMVPMatrix;\n" +
-                    "uniform mat4 uTexMatrix;" +
-                    "void main() {\n" +
-                    "   gl_Position = uMVPMatrix * aPosition;\n" +
-                    "   vTexCoord = (uTexMatrix * aTexCoord).xy;\n" +
-                    "}";
-
-    private static final String FRAGMENT_SHADER =
-            "precision mediump float;\n" +
-                    "varying vec2 vTexCoord;\n" +
-                    "uniform sampler2D sTexture;\n" +
-                    "void main() {\n" +
-                    "   gl_FragColor = texture2D(sTexture, vTexCoord);\n" +
-                    "}";
-
-    private static final float[] VERTICES = {
-            -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, // bottom, left
-            1.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // top, right
-            -1.0f, 1.0f, 0.0f, 0.0f, 0.0f,  // top, left
-            1.0f, -1.0f, 0.0f, 1.0f, 1.0f   // bottom, right
-    };
 
     private static final short[] INDICES = {
             0, 1, 2,
             0, 3, 1
     };
 
-    public TextureDrawer setBitmap(Bitmap bitmap) {
-        mBitmap = bitmap;
-        return this;
-    }
+    abstract boolean setupShaders();
+    abstract void setupLocations();
+    abstract float[] getVertices();
 
     @Override
     public void init() {
         setupShaders();
         setupLocations();
-        mTexId = GLUtils.createTexture();
     }
 
     @Override
@@ -101,12 +67,15 @@ public class TextureDrawer implements IDrawer {
     @Override
     public void setViewPort(int x, int y, int width, int height) {
         GLES20.glViewport(x, y, width, height);
-        mImageMatrix.setViewport(mBitmap.getWidth(), mBitmap.getHeight(), width, height);
     }
 
     @Override
     public void draw() {
-        draw(mTexId, mImageMatrix.getMVPMatrix(), null);
+        draw(-1);
+    }
+
+    public void draw(int texId) {
+        draw(texId, null);
     }
 
     public void draw(int texId, float[] mvpMatrix) {
@@ -127,7 +96,6 @@ public class TextureDrawer implements IDrawer {
         }
 
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        GLUtils.drawBitmap(texId, mBitmap);
         setupBuffers();
 
         GLES20.glUniformMatrix4fv(mMVPMatrixLocation, 1, false, mvpMatrix, 0);
@@ -143,21 +111,6 @@ public class TextureDrawer implements IDrawer {
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_SHORT, 0);
     }
 
-    private boolean setupShaders() {
-        int vertexShaderId = GLUtils.compileVertexShader(VERTEX_SHADER);
-        int fragmentShaderId = GLUtils.compileFragmentShader(FRAGMENT_SHADER);
-        mProgramId = GLUtils.linkProgram(vertexShaderId, fragmentShaderId);
-        return mProgramId != 0;
-    }
-
-    private void setupLocations() {
-        mPositionLocation = GLES20.glGetAttribLocation(mProgramId, "aPosition");
-        mTexCoordLocation = GLES20.glGetAttribLocation(mProgramId, "aTexCoord");
-        mMVPMatrixLocation = GLES20.glGetUniformLocation(mProgramId, "uMVPMatrix");
-        mTexMatrixLocation = GLES20.glGetUniformLocation(mProgramId, "uTexMatrix");
-        mSamplerLocation = GLES20.glGetUniformLocation(mProgramId, "sTexture");
-    }
-
     private void setupBuffers() {
         mVAOId = GLUtils.createVAO();
         GLES30.glBindVertexArray(mVAOId);
@@ -168,7 +121,7 @@ public class TextureDrawer implements IDrawer {
 
     private void setupVBOBuffers() {
         if (mVertexData == null) {
-            mVertexData = GLUtils.createFloatBuffer(VERTICES);
+            mVertexData = GLUtils.createFloatBuffer(getVertices());
         }
         mVBOId = GLUtils.createVBO();
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVBOId);

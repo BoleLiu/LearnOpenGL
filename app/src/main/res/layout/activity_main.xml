@@ -35,7 +35,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="texture"
+        android:text="bitmap"
         android:onClick="onClickTexture" />
 
     <Button
@@ -43,5 +43,11 @@
         android:layout_height="wrap_content"
         android:text="YUV"
         android:onClick="onClickYUV" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        android:onClick="onClickCamera" />
 
 </LinearLayout>

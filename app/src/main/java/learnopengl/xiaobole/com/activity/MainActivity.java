@@ -1,15 +1,14 @@
 package learnopengl.xiaobole.com.activity;
 
+import android.Manifest;
 import android.content.Intent;
-import android.opengl.GLSurfaceView;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import learnopengl.xiaobole.com.R;
-import learnopengl.xiaobole.com.drawer.IDrawer;
-import learnopengl.xiaobole.com.drawer.TriangleDrawer;
-import learnopengl.xiaobole.com.render.OpenGLRender;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,11 +35,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickTexture(View v) {
-        jumpToRenderActivity(GLRenderActivity.RENDER_TYPE_TEXTURE);
+        jumpToRenderActivity(GLRenderActivity.RENDER_TYPE_BITMAP);
     }
 
     public void onClickYUV(View v) {
         jumpToRenderActivity(GLRenderActivity.RENDER_TYPE_YUV);
+    }
+
+    public void onClickCamera(View v) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+            return;
+        }
+        Intent intent = new Intent(MainActivity.this, CameraPreviewActivity.class);
+        startActivity(intent);
     }
 
     private void jumpToRenderActivity(int renderType) {
